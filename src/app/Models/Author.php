@@ -1,24 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Models;
 
-use Illuminate\Http\Request;
-use App\Models\Author;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class AuthorController extends Controller
+class Author extends Model
 {
-    public function add(){
-        return view('add');
-    }
+  use HasFactory;
 
-    public function create(Request $request){
-        $form = $request->all();
-        return redirect('/');
-    }
+  protected $fillable = ['name', 'age', 'nationality'];
 
-    public function index()
-    {
-        $authors = Author::all();
-        return view('index', ['authors' => $authors]);
-    }
+  public function getDetail()
+  {
+    $txt = 'ID:'.$this->id . ' ' . $this->name . '(' . $this->age .  '才'.') '.$this->nationality;
+    return $txt;
+  }
 }

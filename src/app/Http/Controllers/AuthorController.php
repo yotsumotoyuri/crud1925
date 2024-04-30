@@ -12,19 +12,24 @@ class AuthorController extends Controller
         return view('index', ['authors' => $authors]);
     }
 
-    public function add(){
-        return view('add');
+    public function find()
+    {
+        return view('find', ['input' => '']);
     }
-
-    public function create(Request $request){
-        $form = $request->all();
-        Author::create($form);
-        return redirect('/');
+    public function search(Request $request)
+    {
+        $item = Author::where('name', 'LIKE',"%{$request->input}%")->first();
+        $param = [
+            'input' => $request->input,
+            'item' => $item
+        ];
+        return view('find', $param);
     }
-
-    public function edit(Request $request){
-        $author = Author::find($request->id);
-        return view('edit', ['form' => $author]);
+    public function bind(Author $author)
+    {
+        $data = [
+            'item'=>$author,
+        ];
+        return view('author.binds', $data);
     }
-
 }
